@@ -1,5 +1,6 @@
 import pandas as pd
 
+from typing import Union, Tuple
 from binance.client import Client
 
 
@@ -18,9 +19,9 @@ class DataManager:
         return self._dataframe.copy()
 
     def get_historical_klines(self,
-                              start_stop_day: int | (int, int) = (1, 31),
-                              start_stop_month: str | (str, str) = "Jan",
-                              start_stop_year: int | (int, int) = 2021,
+                              start_stop_day: Union[int, Tuple[int, int]] = (1, 31),
+                              start_stop_month: Union[str, Tuple[str, str]] = "Jan",
+                              start_stop_year: Union[int, Tuple[int, int]] = 2021,
                               kline_interval: str = "1m",
                               format_df: bool = False) -> None:
         """
@@ -100,6 +101,7 @@ class DataManager:
             return
 
         ### Construction du dataframe
-        self._dataframe = pd.DataFrame(klines.iloc[:, :len(self._columns_names)], columns = self._columns_names)
+        self._dataframe = pd.DataFrame(klines).iloc[:, :len(self._columns_names)]
+        self._dataframe.columns = self._columns_names
         self._dataframe = self._dataframe.apply(pd.to_numeric)
 
