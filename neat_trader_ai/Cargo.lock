@@ -5,3 +5,10 @@ version = 3
 [[package]]
 name = "neat_trade_ai"
 version = "0.1.0"
+dependencies = [
+ "simulation",
+]
+
+[[package]]
+name = "simulation"
+version = "0.1.0"
